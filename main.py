@@ -15,7 +15,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     url = update.message.text
     response = requests.post("https://dl.linknim.ir/file.php",
-                             data={'url': url} timeout=10000000)
+                             data={'url': url}, timeout=10000000)
     a = urlparse(url)
     await context.bot.send_document(chat_id=update.effective_chat.id, document=response.content, filename=os.path.basename(a.path))
 
