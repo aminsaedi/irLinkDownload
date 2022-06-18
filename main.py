@@ -20,13 +20,15 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     dl = 0
     total_length = int(total_length)
     file = open('temp', 'wb+')
-    message = await context.bot.send_message(chat_id=update.effective_chat.id, text='0')
+    current = 0
+    message = await context.bot.send_message(chat_id=update.effective_chat.id, text=str(current))
     for data in response.iter_content(chunk_size=4096):
         dl += len(data)
         file.write(data)
-        if ((dl / total_length * 100) % 0.01 == 0):
+        if ((dl / total_length * 100) - current > 0.01):
+            current = dl / total_length * 100
             await context.bot.edit_message_text(
-                message_id=message.id, chat_id=update.effective_chat.id, text=str(dl / total_length * 100))
+                message_id=message.id, chat_id=update.effective_chat.id, text=str(current))
     a = urlparse(url)
     file.close()
     file = open('temp', 'rb')
