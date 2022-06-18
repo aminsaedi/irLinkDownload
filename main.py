@@ -15,22 +15,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     url = update.message.text
     response = requests.post("https://dl.linknim.ir/file.php",
-                             data={'url': url}, stream=True, timeout=10000000)
-    total_length = response.headers.get('content-length')
-    dl = 0
-    total_length = int(total_length)
-    file = open('temp', 'wb+')
-    message = await context.bot.send_message(chat_id=update.effective_chat.id, text='0')
-    for data in response.iter_content(chunk_size=4096):
-        dl += len(data)
-        file.write(data)
-        if ((dl / total_length * 100) % 0.01 == 0):
-            await context.bot.edit_message_text(
-                message_id=message.id, chat_id=update.effective_chat.id, text=str(dl / total_length * 100))
+                             data={'url': url} timeout=10000000)
     a = urlparse(url)
-    file.close()
-    file = open('temp', 'rb')
-    await context.bot.send_document(chat_id=update.effective_chat.id, document=file.read(), filename=os.path.basename(a.path))
+    await context.bot.send_document(chat_id=update.effective_chat.id, document=response.content, filename=os.path.basename(a.path))
 
 if __name__ == '__main__':
     application = ApplicationBuilder().token(
