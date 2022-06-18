@@ -25,7 +25,7 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
         dl += len(data)
         file.write(data)
         await context.bot.edit_message_text(
-            message_id=message.id, chat_id=update.effective_chat.id, text=str(round(dl / total_length * 100)))
+            message_id=message.id, chat_id=update.effective_chat.id, text=str(dl / total_length * 100))
     a = urlparse(url)
     file.close()
     file = open('temp', 'rb')
