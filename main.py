@@ -15,7 +15,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     url = update.message.text
     response = requests.post("https://dl.linknim.ir/file.php",
-                             data={'url': url}, stream=True)
+                             data={'url': url}, stream=True, timeout=10000000)
     total_length = response.headers.get('content-length')
     dl = 0
     total_length = int(total_length)
